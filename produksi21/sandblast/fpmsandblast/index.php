@@ -94,7 +94,7 @@ $kode_otomatis = "FSB21" . $kode_barang;
       <h4 class="row text-center" style="margin-top:5px; margin-left: 10px;">Form Perbaikan</h4>
         <p style="margin-left: 9px">Isi form untuk permintaaan perbaikan ke staff teknik</p>
       <div class="card" style="margin: 25px;">        
-        <form class="row g-3" style="margin: 10px;" method="post" name="form-user" action="prosesp21.php" autocomplete="off">
+        <form class="row g-3" style="margin: 10px;" method="post" id="myform" action="prosesp21.php" autocomplete="off">
           <div class="col-md-12">
             <label class="form-label"><h6>Tanggal</h6></label>
             <input type="date" name="tanggal" class="form-control" >
@@ -408,19 +408,137 @@ $kode_otomatis = "FSB21" . $kode_barang;
             </tbody>
           </table>
           <div class="col-md-12 mt-2">
-            <label class="form-label"><h6>Catatan</h6></label>
-            <input type="text" class="form-control" name="catatan">
+            <div class="card">
+              <div class="card-header">
+                <h5>Catatan</h5>
+              </div>
+              <div class="card-body">
+                Kondisi Abnormal <textarea type="input" class="form-control"  name="catatan[]"></textarea>  
+                Analisa Penyebab <textarea type="input" class="form-control"  name="analisa[]"></textarea> 
+                Tindakan yang dilakukan <textarea type="input" class="form-control"  name="tindakan[]"></textarea> 
+                Status Tindakan <textarea type="input" class="form-control"  name="status[]"></textarea>                       
+              </div>
+            </div>
           </div>      
           <div class="col-12 mt-4">
-            <button type="submit" name="submit"  class="btn btn-primary"><h6>Kirim</h6></button>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+              data-bs-target="#part">
+               Permintaan Pergantian Part
+            </button>
+            <!-- Modal Permintaan-->
+              <div class="modal fade" id="part" tabindex="-1" aria-labelledby="partLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="partLabel"> Permintaan Pergantian Part</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div id="inputsContainer">
+                      <div class="col-md-12 mt-2">
+                        <div class="col-md-12 mt-2">
+                          <label for="part" class="form-label">
+                            <h6>Nama Part</h6>
+                          </label>
+                          <input type="text" class="form-control" id="bagian" name="part[]">
+                        </div>
+                      </div>
+                      <div class="col-md-12 mt-2">
+                        <label for="spec" class="form-label">
+                          <h6>Spesifikasi Part</h6>
+                        </label>
+                        <input type="text" class="form-control" id="spec" name="spec[]" >
+                      </div>
+                      <div class="col-md-12 mt-2">
+                        <label for="jmlh" class="form-label">
+                          <h6>Jumlah</h6>
+                        </label>
+                        <input type="text" class="form-control" id="jmlh" name="jmlh[]" >
+                      </div> 
+                        </div>
+                    </div>
+                    <div class="col px-2 m-1"> <button type="button" class="btn btn-warning" onclick="tambahInput()">Tambah</button></div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      
+            <button type="submit" name="submit" class="btn btn-lg btn-primary">Kirim</button>
           </div>
         </form>   
         </div>
-           
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+<script>
+  function tambahInput() {
+    var inputsContainer = document.getElementById("inputsContainer");
+
+    var div = document.createElement("div");
+    var label1 = document.createElement("label");
+    var input1 = document.createElement("input");
+    var label2 = document.createElement("label");
+    var input2 = document.createElement("input");
+    var label3 = document.createElement("label");
+    var input3 = document.createElement("input");
+    var button = document.createElement("button");
+
+    label1.innerHTML = "Nama Part";
+    input1.type = "text";
+    input1.name = "part[]";
+    input1.className = "form-control";
+
+    label2.innerHTML = "Spesifikasi Part";
+    input2.type = "text";
+    input2.name = "spec[]";
+    input2.className = "form-control";
+
+    label3.innerHTML = "Jumlah:";
+    input3.type = "text";
+    input3.name = "jmlh[]";
+    input3.className = "form-control";
+
+    button.type = "button";
+    button.innerHTML = "Hapus";
+    button.className = "btn btn-danger";
+    button.onclick = function() {
+      hapusInput(this);
+    };
+
+    div.appendChild(document.createElement("br"));
+    div.appendChild(label1);
+    div.appendChild(input1);
+    div.appendChild(document.createElement("br"));
+
+    div.appendChild(label2);
+    div.appendChild(input2);
+    
+
+    div.appendChild(label3);
+    div.appendChild(input3);
+    div.appendChild(document.createElement("br"));
+    div.appendChild(button);
+
+    inputsContainer.appendChild(div);
+  }
+
+  function hapusInput(element) {
+    var div = element.parentNode;
+    div.parentNode.removeChild(div);
+  }
+</script>
    </div>    
-   </div>           
+   </div>        
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-      <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="fungsi.js"></script>
+      
+      <script>
+    document.getElementById("myform").addEventListener("submit", function(event) {
+      setTimeout(function() {
+        window.history.back();
+      }, 1000); 
+    });
+  </script>
 </body>
 </html>
